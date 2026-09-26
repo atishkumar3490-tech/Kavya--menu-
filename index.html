@@ -3,176 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kavya VIP Digital Menu</title>
+    <title>Kavya Family Restaurant - VIP Menu</title>
     <style>
-        /* Base Premium Theme */
         body {
             margin: 0; padding: 0;
-            background-color: #0a0a0a;
+            background-color: #050505;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow-x: hidden;
         }
 
-        /* 1. Welcome Pop-up (Auto Hide) */
+        /* Upgraded Premium Welcome Pop-up */
         #welcome-popup {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
             z-index: 9999; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            transition: opacity 1s ease-out;
+            transition: opacity 0.8s ease-out;
         }
         .popup-box {
-            background: #1a1a1a; padding: 30px; border-radius: 15px;
-            border: 1px solid #FFD700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            padding: 40px 30px; border-radius: 20px;
+            border: 1px solid #FFD700; 
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            width: 80%; max-width: 350px;
         }
-        .popup-box h2 { color: #FFD700; margin-bottom: 10px; }
+        .popup-box h2 { color: #FFD700; margin: 0 0 15px 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px;}
+        .popup-box p { color: #ccc; font-size: 14px; margin-bottom: 20px;}
+        .loading-dots::after {
+            content: ''; animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60%, 100% { content: '...'; } }
 
         /* Header */
         .header {
-            text-align: center; padding: 20px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
-            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
+            text-align: center; padding: 25px 20px;
+            background: linear-gradient(to bottom, #1a1a1a, #050505);
+            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100;
         }
-        .header h1 { margin: 0; color: #fff; font-size: 24px; letter-spacing: 1px; }
-        .header span { color: #FFD700; font-size: 14px; }
+        .header h1 { margin: 0; color: #fff; font-size: 26px; letter-spacing: 2px; text-transform: uppercase;}
+        .header span { color: #FFD700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;}
 
-        /* Zomato Style Food Card */
+        /* Premium Food Cards */
+        .menu-container { padding: 10px; max-width: 600px; margin: 0 auto; }
         .food-card {
-            background: #141414; margin: 15px; padding: 15px;
-            border-radius: 16px; display: flex; justify-content: space-between;
-            border: 1px solid #222; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background: #111; margin-bottom: 20px; padding: 15px;
+            border-radius: 18px; display: flex; justify-content: space-between;
+            border: 1px solid #222; box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             position: relative;
         }
 
         .food-details { width: 60%; }
-        .food-details h3 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
+        .food-details h3 { margin: 0 0 8px 0; font-size: 19px; color: #fff; }
         
-        /* Price */
-        .price { font-size: 16px; font-weight: bold; color: #fff; }
-        .old-price { text-decoration: line-through; color: #888; font-size: 12px; margin-left: 5px; }
+        .price { font-size: 17px; font-weight: bold; color: #fff; }
+        .old-price { text-decoration: line-through; color: #666; font-size: 13px; margin-left: 8px; }
 
-        /* 2. Blinking Stars Animation */
         @keyframes blinkStars {
-            0% { opacity: 1; text-shadow: 0 0 5px #FFD700; }
-            50% { opacity: 0.4; text-shadow: none; }
-            100% { opacity: 1; text-shadow: 0 0 5px #FFD700; }
+            0% { opacity: 1; text-shadow: 0 0 8px rgba(255, 215, 0, 0.8); }
+            50% { opacity: 0.5; text-shadow: none; }
+            100% { opacity: 1; text-shadow: 0 0 8px rgba(255, 215, 0, 0.8); }
         }
-        .rating { color: #FFD700; font-size: 12px; margin: 8px 0; animation: blinkStars 1.5s infinite; }
-        .rating-count { color: #888; font-size: 10px; animation: none; }
+        .rating { color: #FFD700; font-size: 13px; margin: 10px 0; animation: blinkStars 1.5s infinite; }
+        .rating-count { color: #777; font-size: 11px; animation: none; }
+        .desc { font-size: 13px; color: #999; margin-bottom: 15px; line-height: 1.4; }
 
-        .desc { font-size: 12px; color: #aaa; margin-bottom: 15px; line-height: 1.4; }
-
-        /* Food Image & Discount Badge */
         .food-img-container { width: 35%; position: relative; }
-        .food-img { width: 100%; height: 110px; border-radius: 12px; object-fit: cover; }
+        .food-img { width: 100%; height: 120px; border-radius: 14px; object-fit: cover; border: 1px solid #333;}
         
         .discount-badge {
-            position: absolute; top: -5px; right: -5px;
-            background: #e74c3c; color: white; padding: 4px 8px;
-            border-radius: 8px; font-size: 10px; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            position: absolute; top: -8px; right: -8px;
+            background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%); 
+            color: white; padding: 5px 10px;
+            border-radius: 10px; font-size: 11px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 8, 68, 0.4);
         }
 
-        /* Order Button */
         .order-btn {
-            background: rgba(37, 211, 102, 0.1); color: #25D366;
-            border: 1px solid #25D366; padding: 8px 20px; border-radius: 20px;
-            text-decoration: none; font-size: 12px; font-weight: bold;
-            display: inline-block; text-align: center;
+            background: rgba(37, 211, 102, 0.15); color: #25D366;
+            border: 1px solid #25D366; padding: 10px 22px; border-radius: 25px;
+            text-decoration: none; font-size: 13px; font-weight: bold;
+            display: inline-block; text-align: center; transition: 0.3s;
         }
 
-        /* Footer, Payment & Insta */
-        .footer { text-align: center; padding: 30px 20px 80px; background: #111; margin-top: 20px; border-top: 1px solid #222; }
-        
+        /* Footer */
+        .footer { text-align: center; padding: 40px 20px 90px; background: #0a0a0a; border-top: 1px solid #222; }
         .upi-btn {
-            background: #673AB7; color: white; padding: 12px 30px;
-            border-radius: 25px; text-decoration: none; font-weight: bold;
-            display: inline-block; margin-bottom: 20px; font-size: 16px;
-            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.4);
+            background: linear-gradient(45deg, #673AB7, #512DA8); color: white; padding: 15px 40px;
+            border-radius: 30px; text-decoration: none; font-weight: bold;
+            display: inline-block; margin-bottom: 25px; font-size: 17px;
+            box-shadow: 0 6px 20px rgba(103, 58, 183, 0.5);
         }
-
-        .insta-btn { color: #E1306C; text-decoration: none; font-weight: bold; font-size: 14px; display: block; margin-bottom: 20px; }
-        
-        /* 3. LEGEND BRANDING IN BLUE */
-        .legend-tag { font-size: 13px; font-weight: bold; letter-spacing: 2px; color: #888; }
-        .legend-tag span { color: #00E5FF; /* Cyan Blue */ text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .insta-btn { color: #E1306C; text-decoration: none; font-weight: bold; font-size: 15px; display: block; margin-bottom: 30px; }
+        .legend-tag { font-size: 14px; font-weight: bold; letter-spacing: 3px; color: #555; text-transform: uppercase;}
+        .legend-tag span { color: #00E5FF; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
     </style>
 </head>
 <body>
 
-    <!-- Pop-up Instruction -->
+    <!-- Upgraded Pop-up -->
     <div id="welcome-popup">
         <div class="popup-box">
-            <h2>Welcome to Kavya!</h2>
-            <p>Tap 'Order' to send your request via WhatsApp.</p>
-            <p style="font-size: 12px; color: #888;">Menu is loading...</p>
+            <h2>Welcome to Kavya Family Restaurant</h2>
+            <p>Tap 'Order Now' to send your request instantly via WhatsApp.</p>
+            <p style="font-size: 13px; color: #FFD700; margin-top: 25px;">Preparing VIP Menu<span class="loading-dots"></span></p>
         </div>
     </div>
 
-    <!-- Sticky Header -->
+    <!-- Header -->
     <div class="header">
         <h1>KAVYA RESTAURANT</h1>
-        <span>Premium Digital Menu</span>
+        <span>Exclusive Digital Experience</span>
     </div>
 
-    <!-- Item 1 -->
-    <div class="food-card">
-        <div class="food-details">
-            <h3>Special Chicken Biryani</h3>
-            <div class="price">₹299 <span class="old-price">₹450</span></div>
-            <div class="rating">⭐⭐⭐⭐⭐ <span class="rating-count">(4.8/5)</span></div>
-            <div class="desc">Served with Raita & spicy Salan. Premium Basmati Rice.</div>
-            <!-- Yahan 91XXXXXXX mein owner ka number dalna -->
-            <a href="https://wa.me/91XXXXXXXXXX?text=Hi,%20I%20want%20to%20order%20Special%20Chicken%20Biryani.%20Coupon:%20VIP20" class="order-btn">Order Now</a>
+    <div class="menu-container">
+        <!-- Item 1 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Special Chicken Biryani</h3>
+                <div class="price">₹299 <span class="old-price">₹450</span></div>
+                <div class="rating">⭐⭐⭐⭐⭐ <span class="rating-count">(4.8/5)</span></div>
+                <div class="desc">Served with Raita & spicy Salan. Premium Basmati Rice.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">33% OFF</div>
+                <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80" alt="Biryani" class="food-img">
+            </div>
         </div>
-        <div class="food-img-container">
-            <div class="discount-badge">33% OFF</div>
-            <!-- Abhi demo image hai, tu isko 1.jpg ya apni link se replace kar dena -->
-            <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Biryani" class="food-img">
+
+        <!-- Item 2 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Paneer Butter Masala</h3>
+                <div class="price">₹249 <span class="old-price">₹350</span></div>
+                <div class="rating">⭐⭐⭐⭐½ <span class="rating-count">(4.5/5)</span></div>
+                <div class="desc">Rich, creamy tomato gravy with soft malai paneer cubes.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">28% OFF</div>
+                <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc0?w=400&q=80" alt="Paneer" class="food-img">
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Chicken Tikka Kebab</h3>
+                <div class="price">₹349 <span class="old-price">₹499</span></div>
+                <div class="rating">⭐⭐⭐⭐⭐ <span class="rating-count">(4.9/5)</span></div>
+                <div class="desc">Smoky, charcoal-grilled tender chicken pieces with mint chutney.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">30% OFF</div>
+                <img src="https://images.unsplash.com/photo-1599487405270-45ab10e96bf7?w=400&q=80" alt="Kebab" class="food-img">
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Dal Makhani</h3>
+                <div class="price">₹199 <span class="old-price">₹250</span></div>
+                <div class="rating">⭐⭐⭐⭐ <span class="rating-count">(4.2/5)</span></div>
+                <div class="desc">Slow-cooked black lentils with fresh cream and butter.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">20% OFF</div>
+                <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80" alt="Dal" class="food-img">
+            </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Butter Naan (2 Pcs)</h3>
+                <div class="price">₹70 <span class="old-price">₹100</span></div>
+                <div class="rating">⭐⭐⭐⭐½ <span class="rating-count">(4.6/5)</span></div>
+                <div class="desc">Hot and crispy tandoori naan dripping with fresh butter.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">30% OFF</div>
+                <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80" alt="Naan" class="food-img">
+            </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="food-card">
+            <div class="food-details">
+                <h3>Punjabi Sweet Lassi</h3>
+                <div class="price">₹99 <span class="old-price">₹120</span></div>
+                <div class="rating">⭐⭐⭐⭐⭐ <span class="rating-count">(4.7/5)</span></div>
+                <div class="desc">Thick, chilled sweet yogurt drink topped with malai and dry fruits.</div>
+                <a href="#" class="order-btn">Order Now</a>
+            </div>
+            <div class="food-img-container">
+                <div class="discount-badge">17% OFF</div>
+                <img src="https://images.unsplash.com/photo-1571115177098-24de444bb27b?w=400&q=80" alt="Lassi" class="food-img">
+            </div>
         </div>
     </div>
 
-    <!-- Item 2 -->
-    <div class="food-card">
-        <div class="food-details">
-            <h3>Paneer Butter Masala</h3>
-            <div class="price">₹249 <span class="old-price">₹350</span></div>
-            <div class="rating">⭐⭐⭐⭐½ <span class="rating-count">(4.5/5)</span></div>
-            <div class="desc">Rich, creamy tomato gravy with soft malai paneer cubes.</div>
-            <a href="https://wa.me/91XXXXXXXXXX?text=Hi,%20I%20want%20to%20order%20Paneer%20Butter%20Masala.%20Coupon:%20VIP20" class="order-btn">Order Now</a>
-        </div>
-        <div class="food-img-container">
-            <div class="discount-badge">28% OFF</div>
-            <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Paneer" class="food-img">
-        </div>
-    </div>
-
-    <!-- Footer Area (Payment & Insta) -->
+    <!-- Footer Area -->
     <div class="footer">
-        <!-- UPI Intent Link (Jab phone me dabayega toh GPay/PhonePe khulega) -->
-        <a href="upi://pay?pa=ownerupi@okaxis&pn=KavyaRestaurant&cu=INR" class="upi-btn">Pay Fast via UPI</a>
-        
-        <br>
-        
-        <!-- Instagram Link -->
-        <a href="https://instagram.com/kavya_restaurant_link" class="insta-btn">📸 Follow for New Updates & Offers</a>
-        
-        <!-- THE LEGEND SIGNATURE -->
-        <div class="legend-tag">MADE BY <span>LEGEND 🚀</span></div>
+        <a href="#" class="upi-btn">Pay Fast via UPI</a><br>
+        <a href="https://www.instagram.com/kavyafamilyrestaurant?stkn=MWNxZ3hjMzR1eGJ0eQ==" class="insta-btn">📸 Follow for New Updates & Offers</a>
+        <div class="legend-tag">MADE BY <span>LEGEND </span></div>
     </div>
 
-    <!-- JS for Pop-up Auto Hide -->
+    <!-- JS for Pop-up Auto Hide (Now slightly longer for dramatic effect) -->
     <script>
-        // 3 seconds (3000 milliseconds) ke baad pop-up fade ho jayega
         setTimeout(function() {
             var popup = document.getElementById('welcome-popup');
             popup.style.opacity = '0';
             setTimeout(function() {
                 popup.style.display = 'none';
-            }, 1000); // 1 sec for fade animation to complete
-        }, 3000);
+            }, 800); 
+        }, 3500); 
     </script>
 
 </body>
 </html>
+
